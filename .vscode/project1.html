@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue 3.4 Template</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/normalize.css/normalize.css"
+    />
+    <style type="text/css">
+      body {
+        font-family: monospace;
+        padding: 20px;
+        font-size: 2em;
+      }
+      .can {
+        color: green;
+      }
+
+      .cant {
+        color: red;
+      }
+    </style>
+    <script src="https://unpkg.com/vue@3.4.0"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <div>
+        <div>
+          <label>Enter ur age:</label>
+          <input v-model="age" />
+        </div>
+        <div>{{message}}</div>
+        <div>
+          Can you drive:
+          <!--This is How we add conditional Css classes to elements in Vue-->
+          <span :class="{can:canDrive === 'Yes', cant: canDrive==='No'}"
+            >{{canDrive}}</span
+          >
+        </div>
+      </div>
+    </div>
+    <script>
+      const { createApp, ref, computed } = Vue;
+      const App = {
+        setup() {
+          //let message = "Hello";
+          let message = ref("Hello"); // to make the changes dynamic
+          let age = ref(null);
+
+          let canDrive = computed(() => {
+            console.log("computed!");
+            return age.value >= 18 ? "Yes" : "No";
+          });
+
+          setTimeout(() => {
+            console.log("Changed!");
+            message.value = "Bye!";
+            age.value = 24;
+          }, 5000);
+          return {
+            message,
+            canDrive,
+            age,
+          };
+        },
+      };
+
+      createApp(App).mount("#app");
+    </script>
+  </body>
+</html>
